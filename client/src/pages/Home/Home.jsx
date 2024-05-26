@@ -13,6 +13,7 @@ const Home = () => {
   const [user, setUser] = useState("");
   const [crypto, setCrypto] = useState("");
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,6 +28,8 @@ const Home = () => {
           setLoading(false);
         }
       } catch (error) {
+        setLoading(false);
+        setError(true);
         console.error("Error fetching data:", error);
       }
     };
@@ -49,8 +52,13 @@ const Home = () => {
         });
     }
   }, [user]);
+
   if (loading) {
     return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error occured please try again few minutes</p>;
   }
 
   if (!user) {
