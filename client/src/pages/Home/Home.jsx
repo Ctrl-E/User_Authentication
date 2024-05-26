@@ -1,25 +1,37 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Signup from "../../components/Signup/Signup";
+import LogoutButton from "../../components/Logout/LogoutButton";
 
 const apiUrl =
   import.meta.env.MODE === "production"
     ? import.meta.env.VITE_APP_API_URL_PROD
     : import.meta.env.VITE_APP_API_URL;
 
+axios.defaults.withCredentials = true;
 const Home = () => {
   const [user, setUser] = useState("");
   const [crypto, setCrypto] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  axios.defaults.withCredentials = true;
   useEffect(() => {
-    // First axios call
-    axios.get(`${apiUrl}/`).then((result) => {
-      if (result.data.message === "Success") {
-        console.log(result);
-        setUser(result.data.decodedData.email);
+    const fetchData = async () => {
+      try {
+        const result = await axios.get(`${apiUrl}/`);
+        console.log(result.data.message);
+        if (result.data.message === "Success") {
+          console.log(result);
+          setUser(result.data.decodedData.email);
+          setLoading(false);
+        } else if (result.data.message === "Access Denied") {
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
-    });
+    };
+
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -37,6 +49,9 @@ const Home = () => {
         });
     }
   }, [user]);
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   if (!user) {
     return (
@@ -53,6 +68,7 @@ const Home = () => {
       LTC : {crypto[0]}
       <br></br>
       BTC : {crypto[1]}
+      <LogoutButton />
     </div>
   );
 };

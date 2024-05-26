@@ -13,7 +13,7 @@ dotenv.config();
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:5173", process.env.SERVER_ADDRESS],
+    origin: process.env.SERVER_ADDRESS,
     methods: ["GET", "POST"],
     credentials: true,
   })
@@ -35,11 +35,11 @@ db.on("error", (error) => {
 const verifyUser = (req, res, next) => {
   const token = req.cookies.token;
   if (!token) {
-    res.status(401).json({ message: "Unauthorized Access" });
+    res.status(200).json({ message: "Access Denied" });
   } else {
     jwt.verify(token, process.env.KEY, (err, decoded) => {
       if (err) {
-        res.status(401).json({ message: "Invalid Token" });
+        res.status(401).json({ message: "Cookie Validation Failed" });
       } else {
         req.decoded = decoded;
         next();
@@ -116,6 +116,12 @@ app.get("/crypto", async (req, res) => {
   }
 });
 
+app.post("/logout", async (req, res) => {
+  const token = req.cookies.token;
+  console.log(token);
+  res.status(200).json("Logout Successfull");
+});
+
 app.listen(process.env.PORT, () => {
-  console.log("Server started");
+  console.log("Server started on", process.env.PORT);
 });
