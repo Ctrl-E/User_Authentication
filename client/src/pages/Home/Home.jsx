@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Signup from "../../components/Signup/Signup";
 import LogoutButton from "../../components/Logout/LogoutButton";
+import { useNavigate } from "react-router-dom";
 
 const apiUrl =
   import.meta.env.MODE === "production"
@@ -10,6 +10,7 @@ const apiUrl =
 
 axios.defaults.withCredentials = true;
 const Home = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState("");
   const [crypto, setCrypto] = useState("");
   const [loading, setLoading] = useState(true);
@@ -58,13 +59,14 @@ const Home = () => {
   }
 
   if (error) {
-    return <p>Error occured please try again few minutes</p>;
+    return <p>Error</p>;
   }
 
   if (!user) {
     return (
       <>
-        <Signup />
+        <p>User Not Logged in. Please Login</p>
+        <button onClick={() => navigate("/register")}>Sign In</button>
       </>
     );
   }

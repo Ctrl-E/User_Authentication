@@ -18,7 +18,7 @@ const LogoutButton = () => {
       if (response.data === "Logout Successfull") {
         // Remove the JWT cookie
         Cookies.remove("token"); // Ensure 'token' matches the name of your cookie
-        navigate("/login"); // Navigate to the login page on successful logout
+        navigate("/register"); // Navigate to the login page on successful logout
       } else {
         // Handle unexpected response
         alert("Unexpected response from the server.");
