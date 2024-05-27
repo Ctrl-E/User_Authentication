@@ -3,10 +3,7 @@ import React, { useEffect, useState } from "react";
 import LogoutButton from "../../components/Logout/LogoutButton";
 import { useNavigate } from "react-router-dom";
 
-const apiUrl =
-  import.meta.env.MODE === "production"
-    ? import.meta.env.VITE_APP_API_URL_PROD
-    : import.meta.env.VITE_APP_API_URL;
+const apiUrl = "https://user-login-jwt-authentication.vercel.app"
 
 axios.defaults.withCredentials = true;
 const Home = () => {
