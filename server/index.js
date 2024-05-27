@@ -21,7 +21,7 @@ app.use(
 app.use(cookieParser());
 
 // Database connection
-mongoose.connect(process.env.DB_URI);
+mongoose.connect("mongodb+srv://personalCreator-9956ww:q5R2lmdvcaSb0QM1@signup.zsmkb4w.mongodb.net/RegisteredUsersData" );
 const db = mongoose.connection;
 db.once("open", () => {
   console.log("Connected to MongoDB successfully");
