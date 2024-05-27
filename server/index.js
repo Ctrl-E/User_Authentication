@@ -13,7 +13,7 @@ dotenv.config();
 app.use(express.json());
 app.use(
   cors({
-    origin: process.env.SERVER_ADDRESS,
+    origin: "https://user-authentication-jwt-frontend.vercel.app",
     methods: ["GET", "POST"],
     credentials: true,
   })
@@ -21,7 +21,9 @@ app.use(
 app.use(cookieParser());
 
 // Database connection
-mongoose.connect("mongodb+srv://personalCreator-9956ww:q5R2lmdvcaSb0QM1@signup.zsmkb4w.mongodb.net/RegisteredUsersData" );
+mongoose.connect(
+  "mongodb+srv://personalCreator-9956ww:q5R2lmdvcaSb0QM1@signup.zsmkb4w.mongodb.net/RegisteredUsersData"
+);
 const db = mongoose.connection;
 db.once("open", () => {
   console.log("Connected to MongoDB successfully");
