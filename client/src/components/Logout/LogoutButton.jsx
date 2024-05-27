@@ -3,10 +3,7 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom"; // Ensure this is imported
 import axios from "axios";
 
-const apiUrl =
-  import.meta.env.MODE === "production"
-    ? import.meta.env.VITE_APP_API_URL_PROD
-    : import.meta.env.VITE_APP_API_URL;
+const apiUrl = "https://user-login-jwt-authentication.vercel.app";
 
 const LogoutButton = () => {
   const navigate = useNavigate();
