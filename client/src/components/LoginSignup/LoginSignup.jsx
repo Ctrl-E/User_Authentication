@@ -4,7 +4,7 @@ import axios from "axios";
 import "./login_style.css";
 import Swal from 'sweetalert2'
 
-const apiUrl = "https://user-login-jwt-authentication.vercel.app";
+const apiUrl = "http://34.170.128.74:3001"
 
 const LoginSignup = () => {
   const [isActive, setIsActive] = useState(false);
@@ -12,21 +12,23 @@ const LoginSignup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const handleAlert = (e) => {
+  const handleAlert = (i,e) => {
     console.log(e);
     let newIcon = "";
     let newTitle = "";
 
-    if (e === "error") {
-      newIcon = "error";
-      newTitle = "Something Went Wrong!";
-    } else if (e === "success") {
-      newIcon = "success";
-      newTitle = "Success";
-    } else if (e === "invalid") {
-      newIcon = "error";
-      newTitle = "Invalid username or password";
-    }
+    // if (e === "error") {
+    //   newIcon = "error";
+    //   newTitle = "Invalid Input!";
+    // } else if (e === "success") {
+    //   newIcon = "success";
+    //   newTitle = "Success";
+    // } else if (e === "invalid") {
+    //   newIcon = "error";
+    //   newTitle = "Invalid username or password";
+    // }
+    newIcon = i;
+    newTitle = e;
     const Toast = Swal.mixin({
       toast: true,
       position: "top-end",
@@ -55,12 +57,12 @@ const LoginSignup = () => {
     axios
       .post(`${apiUrl}/login`, { email, password })
       .then((result) => {
-        console.log(result);
+        console.log(result.data);
         if (result.data === "Success") {
-          handleAlert("success")
+          handleAlert("success",result.data)
           navigate("/");
         } else {
-          handleAlert("invalid")
+          handleAlert("error",result.data)
         }
       })
       .catch((err) => console.log(err));
@@ -71,12 +73,14 @@ const LoginSignup = () => {
       .post(`${apiUrl}/register`, { name, email, password })
       .then((result) => {
         if (result.data === "Success") {
-          handleAlert("success")
+          handleAlert("success",result.data)
           setIsActive(false);
+        }else {
+          handleAlert("error",result.data)
         }
       })
       .catch((err) => {
-        handleAlert("error")
+        handleAlert("error",err)
       });
   };
   return (
@@ -104,18 +108,21 @@ const LoginSignup = () => {
             placeholder="Enter User Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            required
           />
           <input
             type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
           <input
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
           <button>Sign Up</button>
         </form>
@@ -142,11 +149,13 @@ const LoginSignup = () => {
             type="email"
             placeholder="Email"
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
           <input
             type="password"
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
           <a href="#">Forget Your Password?</a>
           <button>Sign In</button>
