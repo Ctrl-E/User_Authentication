@@ -13,7 +13,7 @@ dotenv.config();
 app.use(express.json());
 app.use(
   cors({
-    origin: "https://user-authentication-jwt-frontend.vercel.app",
+    origin: ["https://user-authentication-jwt-frontend.vercel.app","*"],
     methods: ["GET", "POST"],
     credentials: true,
   })
