@@ -9,11 +9,19 @@ const cookieParser = require("cookie-parser");
 
 const app = express();
 
+const appMode = "remote"
+
+if (appMode === "dev"){
+  const apiUrl = "http://34.170.128.74:3001"
+}else{
+  const apiUrl = "https://user-authentication-jwt-frontend.vercel.app"
+}
+
 dotenv.config();
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://34.170.128.74:5173",
+    origin: apiUrl,
     methods: ["GET", "POST"],
     credentials: true,
   })
