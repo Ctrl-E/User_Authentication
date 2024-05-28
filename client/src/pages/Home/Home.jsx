@@ -3,7 +3,13 @@ import React, { useEffect, useState } from "react";
 import LogoutButton from "../../components/Logout/LogoutButton";
 import { useNavigate } from "react-router-dom";
 
-const apiUrl = "https://user-login-jwt-authentication.vercel.app"
+const appMode = "remote"
+
+if (appMode === "dev"){
+  const apiUrl = "http://34.170.128.74:3001"
+}else{
+  const apiUrl = "https://user-login-jwt-authentication.vercel.app"
+}
 
 axios.defaults.withCredentials = true;
 const Home = () => {

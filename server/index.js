@@ -9,11 +9,19 @@ const cookieParser = require("cookie-parser");
 
 const app = express();
 
+const appMode = "dev"
+
+if (appMode === "dev"){
+  var apiUrl = "http://34.170.128.74:3001"
+}else{
+  var apiUrl = "https://user-authentication-jwt-frontend.vercel.app"
+}
+
 dotenv.config();
 app.use(express.json());
 app.use(
   cors({
-    origin: "https://user-authentication-jwt-frontend.vercel.app",
+    origin: apiUrl,
     methods: ["GET", "POST"],
     credentials: true,
   })
@@ -58,12 +66,13 @@ app.get("/", verifyUser, (req, res) => {
 
 // Register a user
 app.post("/register", async (req, res) => {
+  console.log(req.body)
   const { email, name, password } = req.body;
   if (email && name && password) {
     try {
       let user = await UserModel.findOne({ email: email });
       if (user) {
-        res.status(400).json({ error: "User Already Registered" });
+        res.json("User Already Registered");
       } else {
         UserModel.create(req.body)
           .then(() => res.json("Success"))
@@ -73,7 +82,7 @@ app.post("/register", async (req, res) => {
       res.status(500).json({ error: "Internal Server Error" });
     }
   } else {
-    res.status(400).json({ error: "Fields cannot be empty" });
+    res.status(200).json({ message: "Access Denied" });
   }
 });
 
