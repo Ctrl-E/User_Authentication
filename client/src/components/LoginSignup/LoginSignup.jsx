@@ -4,13 +4,7 @@ import axios from "axios";
 import "./login_style.css";
 import Swal from 'sweetalert2'
 
-const appMode = "remote"
-
-if (appMode === "dev"){
-  const apiUrl = "http://34.170.128.74:3001"
-}else{
-  const apiUrl = "https://user-login-jwt-authentication.vercel.app"
-}
+const apiUrl = "https://user-login-jwt-authentication.vercel.app";
 
 const LoginSignup = () => {
   const [isActive, setIsActive] = useState(false);
