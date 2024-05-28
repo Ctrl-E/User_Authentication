@@ -9,7 +9,7 @@ const cookieParser = require("cookie-parser");
 
 const app = express();
 
-const appMode = "dev"
+const appMode = "remote"
 
 if (appMode === "dev"){
   var apiUrl = "http://34.170.128.74:3001"
