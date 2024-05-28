@@ -3,15 +3,8 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom"; // Ensure this is imported
 import axios from "axios";
 
-const appMode = "remote"
+const apiUrl = "https://user-login-jwt-authentication.vercel.app";
 
-const appMode = "remote"
-
-if (appMode === "dev"){
-  var apiUrl = "http://34.170.128.74:3001"
-}else{
-  var apiUrl = "https://user-login-jwt-authentication.vercel.app"
-}
 const LogoutButton = () => {
   const navigate = useNavigate();
   const handleLogout = async (e) => {
