@@ -2,15 +2,58 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Ensure this is imported
 import axios from "axios";
 import "./login_style.css";
+import Swal from 'sweetalert2'
 
 const apiUrl = "https://user-login-jwt-authentication.vercel.app";
 
 const LoginSignup = () => {
+  const handleAlertInvalid = () => {
+    Swal.fire({
+      title: 'Invalid Input',
+      text: 'Do you want to continue',
+      icon: 'error',
+      confirmButtonText: 'Click here to try again',
+
+    })
+  }
+
   const [isActive, setIsActive] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const handleAlert = (e) => {
+    console.log(e);
+    let newIcon = "";
+    let newTitle = "";
+  
+    if (e === "error") {
+      newIcon = "error";
+      newTitle = "Something Went Wrong!";
+    } else if (e === "success") {
+      newIcon = "success";
+      newTitle = "Success";
+    } else if (e === "invalid"){
+      newIcon = "error";
+      newTitle = "Invalid username or password";
+    }
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      }
+    });
+  
+    Toast.fire({
+      icon: newIcon,
+      title: newTitle
+    });
+  };
   const handleSignUpClick = () => {
     setIsActive(true);
   };
@@ -24,9 +67,10 @@ const LoginSignup = () => {
       .then((result) => {
         console.log(result);
         if (result.data === "Success") {
+          handleAlert("success")
           navigate("/");
         } else {
-          console.log("Error");
+          handleAlert("invalid")
         }
       })
       .catch((err) => console.log(err));
@@ -37,16 +81,15 @@ const LoginSignup = () => {
       .post(`${apiUrl}/register`, { name, email, password })
       .then((result) => {
         if (result.data === "Success") {
-          alert("Registration Successfull Please Sign in");
+          handleAlert("success")
           setIsActive(false);
         }
       })
       .catch((err) => {
-        alert(`Error: ${err.response.data.error}`);
+        handleAlert("error")
       });
   };
   return (
-    <div>
       <div class={`container ${isActive ? "active" : ""}`} id="container">
         <div class="form-container sign-up">
           <form onSubmit={handleFormSubmit}>
@@ -117,6 +160,7 @@ const LoginSignup = () => {
             />
             <a href="#">Forget Your Password?</a>
             <button>Sign In</button>
+            
           </form>
         </div>
         <div class="toggle-container">
@@ -140,7 +184,6 @@ const LoginSignup = () => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 
