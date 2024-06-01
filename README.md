@@ -1,2 +1,4 @@
 # User_Authentication
-User signup login authentication MERN
+Contributions Welcome.
+This repo is open for contributions
+
